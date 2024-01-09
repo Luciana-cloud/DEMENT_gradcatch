@@ -13,7 +13,9 @@ library(RColorBrewer)
 library(dplyr)
 
 # Open data ####
-nc_data = nc_open('C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2000_2005.nc')  
+#nc_data = nc_open('C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2000_2005.nc')  
+nc_data = nc_open('C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP05/SP05_2006_2011.nc')  
+
 print(nc_data)
 
 # Extract Longitud and Latitud ####
@@ -53,23 +55,52 @@ soil_mois = soil_mois[,1]+soil_mois[,2]
 
 # Final vector ####
 final_array = as.data.frame(cbind(Year,Month,Day,Hour,soil_temp,soil_mois))
-write.csv(final_array,'C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2000_2005.csv')
+#write.csv(final_array,'C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2000_2005.csv')
+write.csv(final_array,'C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP05/SP05_2006_2011.csv')
 
 # Get historical data ####
 
-SP01_1    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2023_2018.csv",dec=".")
-SP01_2    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2012_2017.csv",dec=".")
-SP01_3    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2006_2011.csv",dec=".")
-SP01_4    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2000_2005.csv",dec=".")
+#SP01_1    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2023_2018.csv",dec=".")
+#SP01_2    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2012_2017.csv",dec=".")
+#SP01_3    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2006_2011.csv",dec=".")
+#SP01_4    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_2000_2005.csv",dec=".")
 
-SP01_temp = rbind(SP01_1,SP01_2,SP01_3,SP01_4)
+#SP01_temp = rbind(SP01_1,SP01_2,SP01_3,SP01_4)
 
-final_mean = SP01_temp %>% group_by(Month,Day) %>% 
+SP05_1    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP05/SP05_2023_2018.csv",dec=".")
+SP05_2    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP05/SP05_2012_2017.csv",dec=".")
+SP05_3    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP05/SP05_2006_2011.csv",dec=".")
+SP05_4    = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP05/SP05_2000_2005.csv",dec=".")
+
+SP05_temp = rbind(SP05_3,SP05_4)
+
+final_mean = SP05_temp %>% group_by(Month,Day) %>% 
   summarise(mean_temp=mean(as.numeric(soil_temp)),
             mean_mois=mean(as.numeric(soil_mois)),
             .groups = 'drop')
 
-write.csv(final_mean,'C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_mean_2000_2023.csv')
+#write.csv(final_mean,'C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_mean_2000_2023.csv')
 plot(final_mean$mean_temp)
 plot(final_mean$mean_mois)
+
+# Conversion to matrix potential ####
+
+#Saxton, K. E., Rawls, W. J., Romberger, J. S., & Papendick, R. I. (1986). 
+#Estimating Generalized Soil-water Characteristics from Texture. 
+#Soil Science Society of America Journal, 50(4), 1031-1036. 
+#https://doi.org/10.2136/sssaj1986.03615995005000040039x
+
+# SP01 ####
+SP01_total  = read.csv("C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/SP01_mean_2000_2023.csv",dec=".")
+sand        = 0.4695*100
+clay        = 0.1575*100
+A           = exp(-4.396-0.0715*clay-(4.880*10^(-4))*sand^2-(4.285*10^-5)*(sand^2)*clay)*100
+B           = -3.140-0.00222*clay^2-(3.484*10^-5)*(sand^2)*clay
+SP01_total  = SP01_total %>% mutate(WP = A*(mean_mois)^B)
+SP01_total  = SP01_total %>% mutate(Temp = mean_temp-273)
+SP01_total  = SP01_total %>% mutate(Psi  = -0.1450377377*WP)
+write.csv(SP01_total,'C:/luciana_datos/UCI/Project_14 (Anna)/DEMENT_gradcatch/raw_data/SP01/climate.csv')
+plot(SP01_total$Temp)
+plot(SP01_total$Psi)
+
 
