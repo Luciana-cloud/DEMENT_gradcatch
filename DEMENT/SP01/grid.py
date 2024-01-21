@@ -183,8 +183,8 @@ class Grid():
         DecayRates = pd.concat([batch1,rss],axis=1,sort=False).min(axis=1,skipna=True)
         
         # Adjust cellulose rate by linking cellulose degradation to lignin concentration (LCI) 
-        ss7 = self.Substrates.loc[Sub_index=='Lignin'].sum(axis=1).values
-        DecayRates.loc[Sub_index=='Cellulose'] *= np.float32(1) + (ss7/(ss7 + self.Substrates.loc[Sub_index=='Cellulose','C'])) * LCI_slope
+        #ss7 = self.Substrates.loc[Sub_index=='Lignin'].sum(axis=1).values
+        #DecayRates.loc[Sub_index=='Cellulose'] *= np.float32(1) + (ss7/(ss7 + self.Substrates.loc[Sub_index=='Cellulose','C'])) * LCI_slope
         
         # Update Substrates Pool by removing decayed C, N, & P. Depending on specific needs, adding inputs of substrates can be done here
         self.Substrates -= SubstrateRatios.mul(DecayRates,axis=0) #+ self.SubInput 

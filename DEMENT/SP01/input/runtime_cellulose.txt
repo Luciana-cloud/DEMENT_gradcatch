@@ -1,0 +1,15 @@
+pulse	1
+end_time	100
+x	10
+y	10
+gridsize	100
+n_taxa	10
+fb	0.0
+taxa_per_box	0.01
+n_enzymes	50
+n_substrates	3
+n_uptake	5
+n_osmolytes	20
+direct	0.95
+dist	1
+interval	1
