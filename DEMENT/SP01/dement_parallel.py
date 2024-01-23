@@ -39,7 +39,7 @@ def dement(outname, random_seed):
     np.random.seed(random_seed)
 
     #...a few system constants
-    runtime    = pd.read_csv('runtime.txt',header=None,index_col=0,sep='\t')
+    runtime    = pd.read_csv('runtime_cellulose.txt',header=None,index_col=0,sep='\t')
     pulse      = int(runtime.loc['pulse',1])         # number of pulses
     cycle      = int(runtime.loc['end_time',1])      # number of time steps in each pulse
     interval   = int(runtime.loc['interval',1])      # interval of time step to record outputs
