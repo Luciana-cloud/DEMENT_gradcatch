@@ -28,7 +28,7 @@ import joblib
 from joblib import Parallel, delayed
 
 def dement(outname, random_seed):
-    #outname_t[i]  = "20220221" + str(int(i))    # output file name and seed of Pseudo-RNG + "20220211"
+    #outname_t[i]  = "20240123" + str(int(i))    # output file name and seed of Pseudo-RNG + "20220211"
     input_folder  = "input"   # input folder name 
     output_folder = "output"  # output folder name
     #outname       = outname_t[i]
@@ -93,9 +93,9 @@ def dement(outname, random_seed):
 
     return Output_init
 
-results = Parallel(n_jobs=4)(delayed(dement)("20220221" + str(int(i)),i) for i in range(4))
+results = Parallel(n_jobs=10)(delayed(dement)("20240123" + str(int(i)),i) for i in range(10))
 
 import pickle
-output = open('1234.pkl', 'wb')
+output = open('SP05_results_cellulose.pkl', 'wb')
 pickle.dump(results, output)
 output.close()
