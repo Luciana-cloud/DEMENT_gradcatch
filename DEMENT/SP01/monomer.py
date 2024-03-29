@@ -86,10 +86,10 @@ class Monomer():
         # supplement with NH4 and PO4 from the parameters
         MonInput = pd.concat([pd.Series([self.Input_NH4,self.Input_PO4],index=['Input_NH4','Input_PO4']),monomer_input],sort=False)
         MonInput = MonInput.astype('float32')
-
+        
         return MonInput
        
-         
+  
     def monomer_uptake_reqenzyme(self):
         """
         Derive the monomer-required enzymes.

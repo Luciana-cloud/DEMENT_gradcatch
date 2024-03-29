@@ -15,9 +15,9 @@ import numpy  as np
 import matplotlib.pyplot as plt
 # from plotnine import *
 
-from initialization import initialize_data
-from grid import Grid
-from output import Output
+from initialization_gradcatch import initialize_data
+from grid_gradcatch import Grid
+from output_gradcatch import Output
 from utility import export
 
 input_folder  = "input"   # input folder name
@@ -93,7 +93,7 @@ def dement(outname, random_seed):
 
     return Output_init
 
-results = Parallel(n_jobs=10)(delayed(dement)("20240124" + str(int(i)),i) for i in range(10))
+results = Parallel(n_jobs=10)(delayed(dement)("20240328" + str(int(i)),i) for i in range(20))
 
 import pickle
 output = open('SP02_results_cellulose.pkl', 'wb')
