@@ -87,11 +87,11 @@ class Grid():
         self.AE_temp           = data_init['AE_temp']           # AE sensitivity to temperature;scalar
         self.Respiration       = np.float32('nan')              # Respiration
         self.CUE_system        = np.float32('nan')              # emergent CUE
-        #self.Transporters = float('nan')
-        #self.Osmolyte_Con = float('nan')
-        #self.Osmolyte_Ind = float('nan')
-        #self.Enzyme_Con   = float('nan')
-        #self.Enzyme_Ind   = float('nan')
+        self.Transporters = data_init["UptakeGenes_trait"]
+        self.Osmolyte_Con = data_init["OsmoProdConsti_trait"]
+        self.Osmolyte_Ind = data_init["OsmoProdInduci_trait"]
+        self.Enzyme_Con   = data_init["EnzProdConsti_trait"]
+        self.Enzyme_Ind   = data_init["EnzProdInduci_trait"]
         #self.CUE_Taxon    = float('nan')
         #self.Growth_Yield = float('nan')
 

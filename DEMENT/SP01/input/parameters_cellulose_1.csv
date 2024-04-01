@@ -55,10 +55,10 @@ Enzymes_per_sub,1
 Avg_extra_req_enz,0
 Uptake_per_monomer,1
 Monomer_Substrate_Ratio,0
-Init_NH4,0.018
-Init_PO4,0.019
-Input_NH4,0.00274
-Input_PO4,0.00274
+Init_NH4,0.09
+Init_PO4,0.095
+Input_NH4,0.0137
+Input_PO4,0.0137
 death_rate_bac,0.001
 death_rate_fun,0.0002
 beta_bac,10

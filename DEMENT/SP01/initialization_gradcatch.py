@@ -24,7 +24,7 @@ def initialize_data(runtime_parameters):
     """
     
     # Load all input files
-    parameters      = pd.read_csv('parameters_cellulose.csv',         header=None, index_col=0).astype('float32')   # parameters
+    parameters      = pd.read_csv('parameters_cellulose_1.csv',         header=None, index_col=0).astype('float32')   # parameters
     substrates_init = pd.read_csv('initial_substrates_cellulose.csv', header=0,    index_col=0).astype('float32')   # initial substrates
     sub_mon_input   = pd.read_csv('sub_mon_inputs_cellulose.csv',     header=0,    index_col=0).astype('float32')   # inputs of substrates and monomers
     Ea_input        = pd.read_csv("enzyme_ea_cellulose.csv",          header=0,    index_col=0).astype('float32')   # enzyme activation energy
