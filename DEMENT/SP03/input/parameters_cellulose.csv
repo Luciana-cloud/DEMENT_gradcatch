@@ -57,8 +57,8 @@ Uptake_per_monomer,1
 Monomer_Substrate_Ratio,0
 Init_NH4,0.047
 Init_PO4,0.008
-Input_NH4,0.0137
-Input_PO4,0.0137
+Input_NH4,0.00548
+Input_PO4,0.00548
 death_rate_bac,0.001
 death_rate_fun,0.0002
 beta_bac,10
