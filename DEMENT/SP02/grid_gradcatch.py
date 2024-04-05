@@ -124,7 +124,7 @@ class Grid():
         # Global constants
         self.Km_Ea = np.float32(20)         # kj mol-1;activation energy for both enzyme and transporter
         self.Tref  = np.float32(293)        # reference temperature of 20 celcius
-    
+            
 
     def degradation(self,pulse,day):
         """
@@ -681,6 +681,25 @@ class Grid():
         self.Monomers   = self.Monomers_init.copy(deep=True)
         self.Enzymes    = self.Enzymes_init.copy(deep=True)
 
+        if day == 1094:
+            print("Day 1094 reached. Performing special initialization.")
+            # Load special substrate and monomer files
+            parameters      = pd.read_csv('parameters_cellulose_SP3.csv',header=None, index_col=0).astype('float32')
+            replacement_value_1 = parameters.loc['Input_NH4', 1]
+            self.MonInput["Input_NH4"] = replacement_value_1
+            replacement_value_2 = parameters.loc['Input_PO4', 1]
+            self.MonInput["Input_PO4"] = replacement_value_2
+            replacement_value_3 = parameters.loc['Init_NH4', 1]
+            self.Monomers_init.loc[self.Monomers_init.index == 'NH4', 'N'] = replacement_value_3
+            replacement_value_4 = parameters.loc['Init_PO4', 1]
+            self.Monomers_init.loc[self.Monomers_init.index == 'PO4', 'P'] = replacement_value_4
+            print("Special initialization complete.")
+        else:
+            print("Day is not 1094. Performing regular initialization.")
+        # Initialize substrates, monomers, and microbes based on the current state
+        self.Substrates = self.Substrates_init.copy(deep=True)
+        self.Monomers   = self.Monomers_init.copy(deep=True)
+        
         # reinitialize microbial community in a new pulse if True
         if mic_reinit == True:
             
