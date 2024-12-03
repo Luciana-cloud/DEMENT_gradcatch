@@ -93,7 +93,7 @@ def dement(outname, random_seed):
 
     return Output_init
 
-results = Parallel(n_jobs=10)(delayed(dement)("20240328" + str(int(i)),i) for i in range(20))
+results = Parallel(n_jobs=4)(delayed(dement)("20240328" + str(int(i)),i) for i in range(4))
 
 import pickle
 output = open('SP01_results_cellulose.pkl', 'wb')
